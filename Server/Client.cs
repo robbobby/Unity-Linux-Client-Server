@@ -1,7 +1,5 @@
 using System;
-using System.IO;
 using System.Net.Sockets;
-using System.Reflection.PortableExecutable;
 
 namespace Server {
     public class Client {
@@ -14,8 +12,8 @@ namespace Server {
     }
 
     public class TcpConnection {
-        public bool IsConnected { get; private set; } = false;
-        public TcpClient socket;
+        public bool IsConnected { get; private set; }
+        public TcpClient Socket { get; set; }
         private readonly int id;
         private NetworkStream networkStream;
         private byte[] receiveBuffer;
@@ -23,9 +21,10 @@ namespace Server {
         public TcpConnection(int id) => this.id = id;
 
         public void Connect(TcpClient socket) {
-            this.socket = socket;
+            this.Socket = socket;
             socket.ReceiveBufferSize = Config.BufferSize;
             socket.SendBufferSize = Config.BufferSize;
+            receiveBuffer = new byte[Config.BufferSize];
             
             networkStream = socket.GetStream();
             networkStream.BeginRead(receiveBuffer, 0, Config.BufferSize, ReceiveCallback, null);

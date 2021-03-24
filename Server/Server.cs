@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.IO.Pipes;
 using System.Net;
 using System.Net.Sockets;
 
 namespace Server {
     public class Server {
-        public static Dictionary<int, Client> Clients = new Dictionary<int, Client>();
+        public static readonly Dictionary<int, Client> Clients = new Dictionary<int, Client>();
         private static TcpListener tcpListener;
         public static void Start() {
             Console.WriteLine($"Starting server...");
